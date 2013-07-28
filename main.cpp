@@ -1,4 +1,5 @@
 #include "main.h"
+#include <QClipboard>
 #include <QQmlContext>
 #include <QtGui/QGuiApplication>
 #include "qtquick2applicationviewer.h"
@@ -13,7 +14,9 @@ QString Hash::Do(QString password, QString page)
     hash.reset();
     hash.addData(password.toUtf8());
     hash.addData(page.toUtf8());
-    return hash.result().toHex();
+    QString result = hash.result().toHex();
+    qApp->clipboard()->setText(result);
+    return result;
 }
 
 int main(int argc, char *argv[])
