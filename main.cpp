@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     QtQuick2ApplicationViewer viewer;
     Hash hash;
 
-    viewer.setMainQmlFile(QStringLiteral("qml/pasgen/main.qml"));
+    viewer.setMainQmlFile(QStringLiteral("qrc:/qml/pasgen/main.qml"));
     viewer.showExpanded();
     viewer.rootContext()->setContextProperty("hash", &hash);
 
