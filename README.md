@@ -11,5 +11,5 @@ It saves resulting password also to clipboard.
 
 Command-line equivalent
 -----------------------
-echo -n "&lt;master password&gt;&lt;site name&gt;" | sha3sum -c 448 -r 1152 -o 224  | tr '[A-Z]' '[a-z]'
+echo -n "&lt;master password&gt;&lt;site name&gt;" | sha3sum -c 448 -r 1152 -o 224  | tr '[A-Z]' '[a-z]' | head -c 30
 
