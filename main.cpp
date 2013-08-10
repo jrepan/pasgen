@@ -1,4 +1,3 @@
-#include "main.h"
 #include <QtGui/QGuiApplication>
 #include <QQmlContext>
 #include "qtquick2applicationviewer.h"
