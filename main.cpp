@@ -6,13 +6,24 @@
 
 const int password_length = 30;
 
-Hash::Hash():
-    hash(QCryptographicHash::Sha3_224)
+Hash::Hash(QQmlContext *c):
+    hash(QCryptographicHash::Sha3_224),
+    settings("pasgen"),
+    context(c)
 {
+    context->setContextProperty("myModel", settings.value("pages").toStringList());
 }
 
 QString Hash::Do(QString password, QString page)
 {
+    QStringList pages = settings.value("pages").toStringList();
+    if (!page.isEmpty() && !pages.contains(page))
+    {
+        pages.append(page);
+        settings.setValue("pages", pages);
+        context->setContextProperty("myModel", pages);
+    }
+
     hash.reset();
     hash.addData(password.toUtf8());
     hash.addData(page.toUtf8());
@@ -24,13 +35,12 @@ QString Hash::Do(QString password, QString page)
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
-
     QtQuick2ApplicationViewer viewer;
-    Hash hash;
+    Hash hash(viewer.rootContext());
 
+    viewer.rootContext()->setContextProperty("hash", &hash);
     viewer.setMainQmlFile(QStringLiteral("qrc:/qml/pasgen/main.qml"));
     viewer.showExpanded();
-    viewer.rootContext()->setContextProperty("hash", &hash);
 
     return app.exec();
 }

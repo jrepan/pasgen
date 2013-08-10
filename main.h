@@ -3,15 +3,20 @@
 
 #include <QCryptographicHash>
 #include <QObject>
+#include <QSettings>
+
+class QQmlContext;
 
 class Hash: public QObject
 {
     Q_OBJECT
 public:
-    Hash();
+    Hash(QQmlContext *c);
     Q_INVOKABLE QString Do(QString password, QString page);
 private:
     QCryptographicHash hash;
+    QSettings settings;
+    QQmlContext *context;
 };
 
 #endif // MAIN_H
