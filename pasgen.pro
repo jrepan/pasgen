@@ -12,7 +12,8 @@ QML_IMPORT_PATH =
 # MOBILITY +=
 
 # The .cpp file which was generated for your project. Feel free to hack it.
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    hash.cpp
 
 # Installation path
 # target.path =
@@ -22,7 +23,7 @@ include(qtquick2applicationviewer/qtquick2applicationviewer.pri)
 qtcAddDeployment()
 
 HEADERS += \
-    main.h
+    hash.h
 
 OTHER_FILES += \
     android/AndroidManifest.xml \

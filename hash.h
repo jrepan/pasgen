@@ -1,23 +1,25 @@
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef HASH_H
+#define HASH_H
 
-#include <QCryptographicHash>
 #include <QObject>
+#include <QCryptographicHash>
 #include <QSettings>
 
 class QQmlContext;
 
-class Hash: public QObject
+class Hash : public QObject
 {
     Q_OBJECT
 public:
-    Hash(QQmlContext *c);
+    explicit Hash(QQmlContext *c, QObject *parent = 0);
+
     Q_INVOKABLE QString Do(QString password, QString page);
     Q_INVOKABLE void Remove(QString page);
+
 private:
     QCryptographicHash hash;
     QSettings settings;
     QQmlContext *context;
 };
 
-#endif // MAIN_H
+#endif // HASH_H
