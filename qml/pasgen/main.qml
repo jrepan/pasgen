@@ -34,7 +34,10 @@ Rectangle {
 
     ListView {
         anchors.top: pageText.bottom
-        anchors.bottom: result.bottom
+        anchors.bottom: result.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        clip: true
         model: myModel
         delegate: Text {
             text: modelData
