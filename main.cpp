@@ -32,6 +32,14 @@ QString Hash::Do(QString password, QString page)
     return result;
 }
 
+void Hash::Remove(QString page)
+{
+    QStringList pages = settings.value("pages").toStringList();
+    pages.removeAll(page);
+    settings.setValue("pages", pages);
+    context->setContextProperty("myModel", pages);
+}
+
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);

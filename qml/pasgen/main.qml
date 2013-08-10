@@ -47,6 +47,9 @@ Rectangle {
                     page.text = parent.text;
                     page.onAccepted()
                 }
+                onPressAndHold: {
+                    hash.Remove(parent.text);
+                }
             }
         }
     }
