@@ -5,30 +5,33 @@ Rectangle {
     height: 100
 
     Text {
-        id: passwordText;
+        id: passwordText
         text: qsTr("Password: ")
     }
     TextInput {
-        id: password;
+        id: password
         anchors.left: passwordText.right
-        echoMode: TextInput.Password;
-        focus: true;
+        echoMode: TextInput.Password
+        focus: true
+
         onAccepted: {
-            result.text = "Result: " + hash.Do(password.text, page.text);
-            page.focus = true;
+            result.text = "Result: " + hash.Do(password.text, page.text)
+            page.focus = true
         }
     }
+
     Text {
         id: pageText
         anchors.top: passwordText.bottom
         text: qsTr("Page: ")
     }
     TextInput {
-        id: page;
+        id: page
         anchors.left: pageText.right
         anchors.top: password.bottom
+
         onAccepted: {
-            result.text = "Result: " + hash.Do(password.text, page.text);
+            result.text = "Result: " + hash.Do(password.text, page.text)
         }
     }
 
@@ -39,23 +42,27 @@ Rectangle {
         anchors.right: parent.right
         clip: true
         model: myModel
+
         delegate: Text {
             text: modelData
+
             MouseArea {
-                anchors.fill: parent;
+                anchors.fill: parent
+
                 onClicked: {
-                    page.text = parent.text;
+                    page.text = parent.text
                     page.onAccepted()
                 }
+
                 onPressAndHold: {
-                    hash.Remove(parent.text);
+                    hash.Remove(parent.text)
                 }
             }
         }
     }
 
     Text {
-        id: result;
+        id: result
         anchors.bottom: parent.bottom
         text: qsTr("Result: -")
     }
