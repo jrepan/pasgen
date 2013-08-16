@@ -1,54 +1,44 @@
 import QtQuick 2.0
-import QtQuick.Layouts 1.0
 
 Rectangle {
     width: 700
     height: 100
 
-    GridLayout {
-        id: grid
-        columns: 2
-        anchors.left: parent.left
+    Text {
+        id: passwordText
+        text: qsTr("Password: ")
+    }
+    TextInput {
+        id: password
+        anchors.left: passwordText.right
         anchors.right: parent.right
+        echoMode: TextInput.Password
+        focus: true
 
-        Text {
-            id: passwordText
-            Layout.fillHeight: true
-            Layout.preferredWidth: passwordText.width
-            text: qsTr("Password: ")
+        onAccepted: {
+            result.text = "Result: " + hash.Do(password.text, page.text)
+            page.focus = true
         }
-        TextInput {
-            id: password
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            echoMode: TextInput.Password
-            focus: true
+    }
 
-            onAccepted: {
-                result.text = "Result: " + hash.Do(password.text, page.text)
-                page.focus = true
-            }
-        }
+    Text {
+        id: pageText
+        anchors.top: passwordText.bottom
+        text: qsTr("Page: ")
+    }
+    TextInput {
+        id: page
+        anchors.left: passwordText.right
+        anchors.right: parent.right
+        anchors.top: password.bottom
 
-        Text {
-            id: pageText
-            Layout.fillHeight: true
-            Layout.preferredWidth: passwordText.width
-            text: qsTr("Page: ")
-        }
-        TextInput {
-            id: page
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-
-            onAccepted: {
-                result.text = "Result: " + hash.Do(password.text, page.text)
-            }
+        onAccepted: {
+            result.text = "Result: " + hash.Do(password.text, page.text)
         }
     }
 
     ListView {
-        anchors.top: grid.bottom
+        anchors.top: pageText.bottom
         anchors.bottom: result.top
         anchors.left: parent.left
         anchors.right: parent.right
