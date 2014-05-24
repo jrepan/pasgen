@@ -33,8 +33,8 @@ Rectangle {
         anchors.top: password.bottom
 
         onAccepted: {
-            check.text = "Checksum: " + hash.Do(password.text, "check")
-            result.text = "Result: " + hash.Do(password.text, page.text)
+            check.text = "Checksum: " + hash.Do(password.text, "check", false)
+            result.text = "Result: " + hash.Do(password.text, page.text, true)
         }
     }
 
