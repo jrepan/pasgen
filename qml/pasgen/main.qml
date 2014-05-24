@@ -16,8 +16,8 @@ Rectangle {
         focus: true
 
         onAccepted: {
-            result.text = "Result: " + hash.Do(password.text, page.text)
             page.focus = true
+            page.onAccepted()
         }
     }
 
@@ -33,6 +33,7 @@ Rectangle {
         anchors.top: password.bottom
 
         onAccepted: {
+            check.text = "Checksum: " + hash.Do(password.text, "check")
             result.text = "Result: " + hash.Do(password.text, page.text)
         }
     }
@@ -67,5 +68,10 @@ Rectangle {
         id: result
         anchors.bottom: parent.bottom
         text: qsTr("Result: -")
+    }
+    Text {
+        id: check
+        anchors.bottom: result.top
+        text: qsTr("Checksum: -")
     }
 }
