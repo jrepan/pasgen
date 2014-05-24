@@ -40,7 +40,7 @@ Rectangle {
 
     ListView {
         anchors.top: pageText.bottom
-        anchors.bottom: result.top
+        anchors.bottom: check.top
         anchors.left: parent.left
         anchors.right: parent.right
         clip: true
