@@ -34,6 +34,8 @@ Rectangle {
 
         onAccepted: {
             check.text = "Checksum: " + hash.Do(password.text, "check", false)
+            hash.Do(password.text, page.text, true)
+
             if (result.text != "Click here to show password") {
                 result.text = "Result: " + hash.Do(password.text, page.text, true)
             }
