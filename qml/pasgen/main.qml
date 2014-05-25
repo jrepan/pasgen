@@ -34,7 +34,9 @@ Rectangle {
 
         onAccepted: {
             check.text = "Checksum: " + hash.Do(password.text, "check", false)
-            result.text = "Result: " + hash.Do(password.text, page.text, true)
+            if (result.text != "Click here to show password") {
+                result.text = "Result: " + hash.Do(password.text, page.text, true)
+            }
         }
     }
 
@@ -67,7 +69,21 @@ Rectangle {
     Text {
         id: result
         anchors.bottom: parent.bottom
-        text: qsTr("Result: -")
+        text: qsTr("Click here to show password")
+        MouseArea {
+            anchors.top: parent.bottom
+            anchors.bottom: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            onClicked: {
+                if (result.text == "Click here to show password") {
+                    result.text = "Result: " + hash.Do(password.text, page.text, true)
+                }
+                else {
+                    result.text = "Click here to show password"
+                }
+            }
+        }
     }
     Text {
         id: check
