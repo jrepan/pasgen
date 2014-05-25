@@ -33,11 +33,11 @@ Rectangle {
         anchors.top: password.bottom
 
         onAccepted: {
-            check.text = "Checksum: " + hash.Do(password.text, "check", false)
-            hash.Do(password.text, page.text, true)
+            check.text = "Checksum: " + hash.Do(password.text, "check", true)
+            hash.Do(password.text, page.text, false)
 
             if (result.text != "Click here to show password") {
-                result.text = "Result: " + hash.Do(password.text, page.text, true)
+                result.text = "Result: " + hash.Do(password.text, page.text, false)
             }
         }
     }
@@ -79,7 +79,7 @@ Rectangle {
             anchors.right: parent.right
             onClicked: {
                 if (result.text == "Click here to show password") {
-                    result.text = "Result: " + hash.Do(password.text, page.text, true)
+                    result.text = "Result: " + hash.Do(password.text, page.text, false)
                 }
                 else {
                     result.text = "Click here to show password"

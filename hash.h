@@ -13,7 +13,7 @@ class Hash : public QObject
 public:
     explicit Hash(QQmlContext *c, QObject *parent = 0);
 
-    Q_INVOKABLE QString Do(QString password, QString page, bool addToList);
+    Q_INVOKABLE QString Do(QString password, QString page, bool isCheck);
     Q_INVOKABLE void Remove(QString page);
 
 private:
