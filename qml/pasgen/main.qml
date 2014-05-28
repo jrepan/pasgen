@@ -51,18 +51,39 @@ Rectangle {
         model: myModel
 
         delegate: Text {
+            id: listItem
             text: modelData
 
             MouseArea {
                 anchors.fill: parent
+                property int origin: -1
 
                 onClicked: {
                     page.text = parent.text
                     page.onAccepted()
                 }
 
-                onPressAndHold: {
-                    hash.Remove(parent.text)
+                onMouseXChanged: {
+                    if (origin != -1) {
+                        parent.x = mouseX - origin
+                    }
+                }
+
+                onPressed: {
+                    origin = mouseX
+                }
+
+                onReleased: {
+                    if (Math.abs(parent.x) > parent.width / 2) {
+                        hash.Remove(parent.text)
+                    } else {
+                        onCanceled()
+                    }
+                }
+
+                onCanceled: {
+                    parent.x = 0
+                    origin = -1
                 }
             }
         }
