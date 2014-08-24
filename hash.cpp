@@ -18,9 +18,12 @@ Hash::Hash(QQmlContext *c, QObject *parent) :
 QString Hash::Do(QString password, QString page, bool isCheck)
 {
     QStringList pages = settings.value("pages").toStringList();
-    if (!isCheck && !page.isEmpty() && !pages.contains(page))
+    if (!isCheck && !page.isEmpty())
     {
-        pages.append(page);
+        if (!pages.contains(page))
+            pages.append(page);
+
+        pages.move(pages.indexOf(page), 0);
         settings.setValue("pages", pages);
         context->setContextProperty("myModel", pages);
     }
