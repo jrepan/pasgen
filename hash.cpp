@@ -34,7 +34,10 @@ QString Hash::Do(QString password, QString page, bool isCheck)
     QString result = hash.result().toHex().left(password_length);
 
     if (!isCheck)
-        qApp->clipboard()->setText(result);
+    {
+        qApp->clipboard()->setText(result, QClipboard::Clipboard);
+        qApp->clipboard()->setText(result, QClipboard::Selection);
+    }
 
     return result;
 }
