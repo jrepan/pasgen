@@ -29,9 +29,9 @@ QString Hash::Do(QString password, QString page, bool isCheck)
     }
 
     hash.reset();
-    hash.addData(password.toUtf8());
-    hash.addData(page.toUtf8());
-    QString result = hash.result().toHex().left(password_length);
+	hash.addData(password.toUtf8());
+	hash.addData(page.toUtf8());
+	QString result = hash.result().toBase64(QByteArray::OmitTrailingEquals).replace('+', "").replace('/', "").left(password_length);
 
     if (!isCheck)
     {

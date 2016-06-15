@@ -11,4 +11,4 @@ Generated password is also saved to clipboard.
 
 Command-line equivalent
 -----------------------
-echo -n "&lt;master password&gt;&lt;site name&gt;" | sha3sum -c 448 -r 1152 -o 224  | tr '[A-Z]' '[a-z]' | head -c 30
+echo -n "&lt;master password&gt;&lt;site name&gt;" | sha3-224sum -l | base64 | tr -d '/+=' | head -c 30
