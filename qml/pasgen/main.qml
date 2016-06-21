@@ -91,6 +91,7 @@ Rectangle {
 
     Text {
         id: result
+        font.family: "serif"
         anchors.bottom: parent.bottom
         text: qsTr("Click here to show password")
         MouseArea {
@@ -110,6 +111,7 @@ Rectangle {
     }
     Text {
         id: check
+        font.family: "serif"
         anchors.bottom: result.top
         text: qsTr("Checksum: -")
     }
