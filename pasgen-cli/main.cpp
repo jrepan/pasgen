@@ -26,7 +26,9 @@ int main(int argc, char *argv[])
 	QGuiApplication a(argc, argv);
 
 	QCommandLineParser parser;
+	QCommandLineOption option("visible", "Is generated password visible", "boolean", "false");
 	parser.addPositionalArgument("page", "Page name for what to generate the password");
+	parser.addOption(option);
 	parser.process(a);
 
 	QStringList argument = parser.positionalArguments();
@@ -36,7 +38,7 @@ int main(int argc, char *argv[])
 	}
 	QString page = argument.first();
 
-	char *password = getpass("Master password: "); //TODO: zeroise later
+	char *password = getpass("Master password: ");
 
 	QString generated = generate(password, page);
 	QString check = generate(password, "check");
@@ -44,8 +46,13 @@ int main(int argc, char *argv[])
 	qApp->clipboard()->setText(generated, QClipboard::Clipboard);
 	qApp->clipboard()->setText(generated, QClipboard::Selection);
 
-	std::cout << "Password: " << generated.toLocal8Bit().constData() << std::endl; //TODO: hide by default
+	std::cout << "Password has been copied to clipboard" << std::endl;
+	if (parser.value(option) == "true")
+		std::cout << "Password: " << generated.toLocal8Bit().constData() << std::endl;
+	else
+		std::cout << "Password is hidden by default, use --visible true to show." << std::endl;
 	std::cout << "Checksum: " << check.toLocal8Bit().constData() << std::endl;
 
+	memset(password, 0, strlen(password));
 	return 0;
 }
