@@ -95,10 +95,7 @@ Rectangle {
         anchors.bottom: parent.bottom
         text: qsTr("Click here to show password")
         MouseArea {
-            anchors.top: parent.bottom
-            anchors.bottom: parent.top
-            anchors.left: parent.left
-            anchors.right: parent.right
+            anchors.fill: parent
             onClicked: {
                 if (result.text == "Click here to show password") {
                     result.text = "Result: " + hash.Do(password.text, page.text, false)
