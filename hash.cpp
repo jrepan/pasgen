@@ -2,9 +2,10 @@
 #include <QClipboard>
 #include <QGuiApplication>
 #include <QQmlContext>
+#include <QTextStream>
 #include <QStringList>
 
-const int password_length = 30;
+const int default_password_length = 30;
 
 Hash::Hash(QQmlContext *c, QObject *parent) :
     QObject(parent),
@@ -17,6 +18,7 @@ Hash::Hash(QQmlContext *c, QObject *parent) :
 
 QString Hash::Do(QString password, QString page, bool isCheck)
 {
+    // Add page to the list
     QStringList pages = settings.value("pages").toStringList();
     if (!isCheck && !page.isEmpty())
     {
@@ -28,17 +30,32 @@ QString Hash::Do(QString password, QString page, bool isCheck)
         context->setContextProperty("myModel", pages);
     }
 
-    hash.reset();
-	hash.addData(password.toUtf8());
-	hash.addData(page.toUtf8());
-	QString result = hash.result().toBase64(QByteArray::OmitTrailingEquals).replace('+', "").replace('/', "").left(password_length);
+    // Get password length
+    int password_length = default_password_length;
+    if (page.startsWith("len"))
+    {
+        QTextStream stream(&page);
+        stream.seek(3); // 3 = strlen("len")
+        stream >> password_length;
+        if (stream.status() != QTextStream::Ok)
+            password_length = default_password_length;
+    }
 
+    // Generate password
+    hash.reset();
+    hash.addData(password.toUtf8());
+    hash.addData(page.toUtf8());
+    QString result = hash.result().toBase64(QByteArray::OmitTrailingEquals).replace('+', "").replace('/', "").left(password_length);
+
+
+    // Copy to clipboard
     if (!isCheck)
     {
         qApp->clipboard()->setText(result, QClipboard::Clipboard);
         qApp->clipboard()->setText(result, QClipboard::Selection);
     }
 
+    // Return result
     return result;
 }
 
