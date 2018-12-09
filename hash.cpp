@@ -42,10 +42,16 @@ QString Hash::Do(QString password, QString page, bool isCheck)
             password_length = default_password_length;
     }
 
+	// Get the secret password from config
+	QString secret = settings.value("secret").toString();
+	if (secret.isEmpty())
+		settings.setValue("secret", "");
+
     // Generate password
     hash.reset();
     hash.addData(password.toUtf8());
     hash.addData(page.toUtf8());
+	hash.addData(secret.toUtf8());
     QByteArray raw = hash.result();
     QString result;
     if (page.startsWith("pin"))
