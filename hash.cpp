@@ -1,5 +1,6 @@
 #include "hash.h"
 #include <QClipboard>
+#include <QDataStream>
 #include <QGuiApplication>
 #include <QQmlContext>
 #include <QTextStream>
@@ -32,10 +33,10 @@ QString Hash::Do(QString password, QString page, bool isCheck)
 
     // Get password length
     int password_length = default_password_length;
-    if (page.startsWith("len"))
+    if (page.startsWith("len") || page.startsWith("pin"))
     {
         QTextStream stream(&page);
-        stream.seek(3); // 3 = strlen("len")
+        stream.seek(3); // 3 = strlen("len" or "pin")
         stream >> password_length;
         if (stream.status() != QTextStream::Ok)
             password_length = default_password_length;
@@ -45,8 +46,16 @@ QString Hash::Do(QString password, QString page, bool isCheck)
     hash.reset();
     hash.addData(password.toUtf8());
     hash.addData(page.toUtf8());
-    QString result = hash.result().toBase64(QByteArray::OmitTrailingEquals).replace('+', "").replace('/', "").left(password_length);
-
+    QByteArray raw = hash.result();
+    QString result;
+    if (page.startsWith("pin"))
+    {
+        unsigned int raw_nr;
+        QDataStream(raw) >> raw_nr;
+        result = QString("%1").arg(raw_nr).right(password_length);
+    }
+    else
+        result = raw.toBase64(QByteArray::OmitTrailingEquals).replace('+', "").replace('/', "").left(password_length);
 
     // Copy to clipboard
     if (!isCheck)

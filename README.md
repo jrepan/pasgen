@@ -11,7 +11,7 @@ Usage Notes
 -----------
 Generated password is also saved to clipboard.
 
-If the page name is prefixed with lenNN_, then the length of resulting password is NN instead of default 30 characters.
+If the page name is prefixed with lenNN or pinNN, then the length of resulting password is NN instead of default 30 characters. If the page name is prefixed with pin, then the resulting password will only contain numbers.
 
 Command-line equivalent
 -----------------------
