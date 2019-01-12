@@ -33,7 +33,7 @@ QString generate(QString password, QString page, QSettings &settings)
     QByteArray raw = hash.result();
     if (page.startsWith("pin"))
     {
-        unsigned int raw_nr;
+        unsigned long long raw_nr;
         QDataStream(raw) >> raw_nr;
         return QString("%1")
 			.arg(raw_nr)
