@@ -1,16 +1,12 @@
 #include "hash.h"
 #include <QClipboard>
-#include <QDataStream>
 #include <QGuiApplication>
 #include <QQmlContext>
-#include <QTextStream>
 #include <QStringList>
-
-const int default_password_length = 30;
+#include "common.h"
 
 Hash::Hash(QQmlContext *c, QObject *parent) :
     QObject(parent),
-    hash(QCryptographicHash::Sha3_224),
     settings("pasgen"),
     context(c)
 {
@@ -31,37 +27,8 @@ QString Hash::Do(QString password, QString page, bool isCheck)
         context->setContextProperty("myModel", pages);
     }
 
-    // Get password length
-    int password_length = default_password_length;
-    if (page.startsWith("len") || page.startsWith("pin"))
-    {
-        QTextStream stream(&page);
-        stream.seek(3); // 3 = strlen("len" or "pin")
-        stream >> password_length;
-        if (stream.status() != QTextStream::Ok)
-            password_length = default_password_length;
-    }
-
-	// Get the secret password from config
-	QString secret = settings.value("secret").toString();
-	if (secret.isEmpty())
-		settings.setValue("secret", "");
-
-    // Generate password
-    hash.reset();
-    hash.addData(password.toUtf8());
-    hash.addData(page.toUtf8());
-	hash.addData(secret.toUtf8());
-    QByteArray raw = hash.result();
-    QString result;
-    if (page.startsWith("pin"))
-    {
-        unsigned int raw_nr;
-        QDataStream(raw) >> raw_nr;
-        result = QString("%1").arg(raw_nr).right(password_length);
-    }
-    else
-        result = raw.toBase64(QByteArray::OmitTrailingEquals).replace('+', "").replace('/', "").left(password_length);
+	// Generate the password
+	QString result = generate(password, page, settings);
 
     // Copy to clipboard
     if (!isCheck)

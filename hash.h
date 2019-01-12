@@ -2,7 +2,6 @@
 #define HASH_H
 
 #include <QObject>
-#include <QCryptographicHash>
 #include <QSettings>
 
 class QQmlContext;
@@ -17,7 +16,6 @@ public:
     Q_INVOKABLE void Remove(QString page);
 
 private:
-    QCryptographicHash hash;
     QSettings settings;
     QQmlContext *context;
 };

@@ -3,23 +3,10 @@
 #include <iostream>
 #include <QGuiApplication>
 #include <QCommandLineParser>
-#include <QCryptographicHash>
 #include <QClipboard>
+#include "../common.h"
 
 const int password_length = 30;
-QCryptographicHash hash(QCryptographicHash::Sha3_224);
-
-QString generate(QString password, QString page)
-{
-	hash.reset();
-	hash.addData(password.toUtf8());
-	hash.addData(page.toUtf8());
-
-	return hash.result()
-		.toBase64(QByteArray::OmitTrailingEquals)
-		.replace('+',"").replace('/',"")
-		.left(password_length);
-}
 
 int main(int argc, char *argv[])
 {
@@ -38,10 +25,12 @@ int main(int argc, char *argv[])
 	}
 	QString page = argument.first();
 
+	QSettings settings("pasgen");
+
 	char *password = getpass("Master password: ");
 
-	QString generated = generate(password, page);
-	QString check = generate(password, "check");
+	QString generated = generate(password, page, settings);
+	QString check = generate(password, "check", settings);
 
 	qApp->clipboard()->setText(generated, QClipboard::Clipboard);
 	qApp->clipboard()->setText(generated, QClipboard::Selection);

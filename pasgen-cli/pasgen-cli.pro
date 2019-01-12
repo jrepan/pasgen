@@ -9,4 +9,4 @@ LIBS += -lbsd
 
 TEMPLATE = app
 
-SOURCES += main.cpp
+SOURCES += main.cpp ../common.cpp
