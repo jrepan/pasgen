@@ -27,8 +27,8 @@ QString Hash::Do(QString password, QString page, bool isCheck)
         context->setContextProperty("myModel", pages);
     }
 
-	// Generate the password
-	QString result = generate(password, page, settings);
+    // Generate the password
+    QString result = generate(password, page, settings);
 
     // Copy to clipboard
     if (!isCheck)

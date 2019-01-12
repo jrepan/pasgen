@@ -1,52 +1,52 @@
 <html>
-	<head>
-		<title>pasgen</title>
-		<style>
-			input
-			{
-				border: 0;
-				background-color: #DADFE1;
-				width: 100%;
-			}
-			table
-			{
-				width: 30em;
-			}
-		</style>
-		<script type="text/javascript" src="https://rawgit.com/emn178/js-sha3/master/src/sha3.js"></script>
-		<script type="text/javascript" >
-			function hexToBase64(hexstring)
-			// From https://stackoverflow.com/questions/23190056/hex-to-base64-converter-for-javascript
-			{
-				return btoa(hexstring.match(/\w{2}/g).map(function(a) {
-					return String.fromCharCode(parseInt(a, 16));
-				}).join(""));
-			}
-			function do_hash(page)
-			{
-				return hexToBase64(
-					   sha3_224(
-					   document.getElementById('master').value.concat(page)))
-					   .replace(/[\/+=]/g, '')
-					   .substring(0, 30);
-			}
-			function update_password()
-			{
-				document.getElementById('check').innerHTML = do_hash('check');
-				document.getElementById('password').innerHTML = do_hash(document.getElementById('page').value);
-			}
-		</script>
-	</head>
+    <head>
+        <title>pasgen</title>
+        <style>
+            input
+            {
+                border: 0;
+                background-color: #DADFE1;
+                width: 100%;
+            }
+            table
+            {
+                width: 30em;
+            }
+        </style>
+        <script type="text/javascript" src="https://rawgit.com/emn178/js-sha3/master/src/sha3.js"></script>
+        <script type="text/javascript" >
+            function hexToBase64(hexstring)
+            // From https://stackoverflow.com/questions/23190056/hex-to-base64-converter-for-javascript
+            {
+                return btoa(hexstring.match(/\w{2}/g).map(function(a) {
+                    return String.fromCharCode(parseInt(a, 16));
+                }).join(""));
+            }
+            function do_hash(page)
+            {
+                return hexToBase64(
+                       sha3_224(
+                       document.getElementById('master').value.concat(page)))
+                       .replace(/[\/+=]/g, '')
+                       .substring(0, 30);
+            }
+            function update_password()
+            {
+                document.getElementById('check').innerHTML = do_hash('check');
+                document.getElementById('password').innerHTML = do_hash(document.getElementById('page').value);
+            }
+        </script>
+    </head>
 
-	<body>
-		<form onsubmit="update_password()" action="#">
-			<table>
-				<tr><td>Password:</td><td width="100%"><input type="password" id="master"></td></tr>
-				<tr><td>Page:</td><td><input id="page"></td></tr>
-				<tr><td>Checksum:</td><td id="check"></td></tr>
-				<tr><td>Result:</td><td id="password"></td></tr>
-			</table>
-			<input type="submit" style="position: absolute; left: -9999px" tabindex="-1">
-		</form>
-	</body>
+    <body>
+        <form onsubmit="update_password()" action="#">
+            <table>
+                <tr><td>Password:</td><td width="100%"><input type="password" id="master"></td></tr>
+                <tr><td>Page:</td><td><input id="page"></td></tr>
+                <tr><td>Checksum:</td><td id="check"></td></tr>
+                <tr><td>Result:</td><td id="password"></td></tr>
+            </table>
+            <input type="submit" style="position: absolute; left: -9999px" tabindex="-1">
+        </form>
+    </body>
 </html>
