@@ -19,3 +19,6 @@ jobs:
       run: qmake
     - name: make
       run: make
+    - name: make apk_install_target
+      run: make apk_install_target
+      if: matrix.target == 'android'
