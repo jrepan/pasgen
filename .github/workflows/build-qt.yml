@@ -37,7 +37,7 @@ jobs:
     - name: make apk_install_target
       run: make apk_install_target
     - name: androiddeployqt
-      run: androiddeployqt --output /home/runner/work/pasgen/pasgen/android-build --apk pasgen.apk
+      run: androiddeployqt --output /home/runner/work/pasgen/pasgen/android-build/libs/arm64-v8a --apk pasgen.apk
     - uses: actions/upload-artifact@v4
       with:
         name: android
