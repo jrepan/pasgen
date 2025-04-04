@@ -4,21 +4,43 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  linux:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        target: ['desktop', 'android']
     steps:
     - uses: actions/checkout@v4
     - name: Install Qt
       uses: jurplel/install-qt-action@v4
       with:
-        target:  ${{ matrix.target }}
+        target:  'desktop'
+    - name: qmake
+      run: qmake
+    - name: make
+      run: make
+    - uses: actions/upload-artifact@v4
+      with:
+        name: linux
+        path: pasgen
+        if-no-files-found: error
+        overwrite: true
+  android:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v4
+      with:
+        target:  android
     - name: qmake
       run: qmake
     - name: make
       run: make
     - name: make apk_install_target
       run: make apk_install_target
-      if: matrix.target == 'android'
+    - name: androiddeployqt6
+      run: androiddeployqt6 --output /home/runner/work/pasgen/pasgen/android-build --apk pasgen.apk
+    - uses: actions/upload-artifact@v4
+      with:
+        name: android
+        path: pasgen.apk
+        if-no-files-found: error
+        overwrite: true
