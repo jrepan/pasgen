@@ -1,0 +1,21 @@
+name: Build Qt app
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: ['desktop', 'android']
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v4
+      with:
+        target:  ${{ matrix.target }}
+    - name: qmake
+      run: qmake
+    - name: make
+      run: make
